@@ -1,0 +1,247 @@
+{% load static %}
+{% url "homepage" as homepage %}
+{% url "questionnaires" as questionnaires %}
+{% url "createquestionnaires" as createquestionnaires %}
+{% url "update" as update %}
+{% url "modules" as modules %}
+{% url "reports" as reports %}
+{% url "modulessubject" as modulessubject %}
+{% url "modulestopic" as modulestopic %}
+{% url "modulessubtopic" as modulessubtopic %}
+{% url "modulestopicupdate" as modulestopicupdate %}
+{% url "modulessubtopicupdate" as modulessubtopicupdate %}
+{% url "modulessubjectupdate" as modulessubjectupdate %}
+
+
+
+<!--========== HEADER ==========-->
+<header class="header">
+  <div class="header__container">
+    <img src="{% static 'images/logoCrim.png' %}" alt="" class="header__img">
+
+    {% if request.path == homepage %}
+    <a href="/" class="header__logo" style="font-size: 30px;">Dashboard</a>
+    {% elif request.path == questionnaires %}
+    <a href="/questionnaires" class="header__logo" style="font-size: 30px;">Questionnaires</a>
+    {% elif request.path == createquestionnaires %}
+    <a href="/questionnaires" class="header__logo" style="font-size: 30px;">Create</a>
+    {% elif request.path == update %}
+    <a href="/questionnaires" class="header__logo" style="font-size: 30px;">Update</a>
+    {% elif request.path == modules %}
+    <a href="{% url 'modules' %}" class="header__logo" style="font-size: 30px;">Subjects</a>
+    {% elif request.path == modulessubject %}
+    <a href="{% url 'modules' %}" class="header__logo" style="font-size: 30px;">Subjects</a>
+    {% elif request.path == modulestopic %}
+    <a href="{% url 'modules' %}" class="header__logo" style="font-size: 30px;">Subjects</a>
+    {% elif request.path == modulessubtopic %}
+    <a href="{% url 'modules' %}" class="header__logo" style="font-size: 30px;">Subjects</a>
+    {% elif request.resolver_match.url_name == 'modulestopicupdate' %}
+    <a href="{% url 'modules' %}" class="header__logo" style="font-size: 30px;">Subjects</a>
+    {% elif request.resolver_match.url_name == 'modulessubjectupdate' %}
+    <a href="{% url 'modules' %}" class="header__logo" style="font-size: 30px;">Subjects</a>
+    {% elif request.resolver_match.url_name == 'modulessubtopicupdate' %}
+    <a href="{% url 'modules' %}" class="header__logo" style="font-size: 30px;">Subjects</a>
+    {% elif request.path == create %}
+    <a href="/questionnaires" class="header__logo" style="font-size: 30px;">Create</a>
+    {% else %}
+    <a href="/" class="header__logo" style="font-size: 30px;">Criminology</a>
+    {% endif %}
+
+      <div class="header__toggle">
+          <i class='bx bx-menu' id="header-toggle"></i>
+      </div>
+
+  </div>
+</header>
+
+<!--========== NAV ==========-->
+<div class="nav" id="navbar">
+  <nav class="nav__container">
+      <div>
+          <a href="#" class="nav__link nav__logo active">
+              <i class='bx bxs-shield-alt-2 nav__icon'></i>
+              <span class="nav__logo-name">Crim</span>
+          </a>
+
+          <div class="nav__list">
+              <div class="nav__items">
+                  <h3 class="nav__subtitle">Menu</h3>
+                    <a href="/" class="nav__link {% if request.path == homepage %}active{% endif %}">
+                        <i class='bx bxs-dashboard nav__icon' ></i>
+                        <span class="nav__name">Dashboard</span>
+                    </a>
+                    <div class="nav__dropdown">
+                        <a style="cursor: default;" href="#" class="nav__link
+                        
+                        {% if request.path == modules %}active
+                        {% elif request.path == modulessubject %}active
+                        {% elif request.path == modulestopic %}active
+                        {% elif request.path == modulessubtopic %}active
+                        {% elif request.resolver_match.url_name == 'masterfilestudents' %}active
+                        {% elif request.resolver_match.url_name == 'masterfilestudentscreate' %}active
+                        {% elif request.resolver_match.url_name == 'masterfilestudentsupdate' %}active
+                        {% elif request.resolver_match.url_name == 'academic_year' %}active
+                        {% elif request.resolver_match.url_name == 'assessment' %}active
+                        {% elif request.resolver_match.url_name == 'table_of_secification' %}active 
+                        {% elif request.resolver_match.url_name == 'modulestopicupdate' %}active
+                        {% elif request.resolver_match.url_name == 'table_of_secificationcreate' %}active 
+                        {% elif request.resolver_match.url_name == 'academicyearcreate' %}active
+                        {% elif request.resolver_match.url_name == 'academicyearupdate' %}active
+                        {% elif request.resolver_match.url_name == 'modulessubtopicupdate' %}active
+                        {% elif request.resolver_match.url_name == 'modulessubjectupdate' %}active
+                        {% elif request.resolver_match.url_name == 'assessmentcreate' %}active
+                        {% elif request.resolver_match.url_name == 'assessmentupdate' %}active
+                        {% elif request.resolver_match.url_name == 'table_of_specification_update' %}active
+                        {% endif %}
+
+                        ">
+                            <i class='bx bxs-file nav__icon'></i>
+                            <span class="nav__name">Master file</span>
+                            <i class='bx bx-chevron-down nav__icon nav__dropdown-icon'></i>
+                        </a>
+
+                        <div class="nav__dropdown-collapse">
+                            <div class="nav__dropdown-content"  style="white-space: nowrap;">
+                                <a href="{% url 'modules' %}" class="nav__dropdown-item 
+                                {% if request.resolver_match.url_name == 'modules' %}active
+                                {% elif request.resolver_match.url_name == 'modulessubject' %}active
+                                {% elif request.resolver_match.url_name == 'modulestopic' %}active
+                                {% elif request.resolver_match.url_name == 'modulessubtopic' %}active
+                                {% elif request.resolver_match.url_name == 'modulessubtopicupdate' %}active
+                                {% elif request.resolver_match.url_name == 'modulestopicupdate' %}active
+                                {% elif request.resolver_match.url_name == 'modulessubjectupdate' %}active
+
+                                
+                                {% endif %}
+                                ">Subject</a>
+                                <a href="{% url 'academic_year' %}" class="nav__dropdown-item
+                                {% if request.resolver_match.url_name == 'academic_year' %}active
+                                {% elif request.resolver_match.url_name == 'academicyearcreate' %}active
+                                {% elif request.resolver_match.url_name == 'academicyearupdate' %}active
+                                {% endif %}
+                                ">Academic Year</a>
+                                <a href="{% url 'assessment' %}" class="nav__dropdown-item
+                                {% if request.resolver_match.url_name == 'assessment' %}active
+                                {% elif request.resolver_match.url_name == 'assessmentupdate' %}active
+                                {% elif request.resolver_match.url_name == 'assessmentcreate' %}active
+                                {% endif %}
+                                ">Assessment</a>
+                                <a href="{% url 'table_of_secification' %}" class="nav__dropdown-item
+                                {% if request.resolver_match.url_name == 'table_of_secification' %}active
+                                {% elif request.resolver_match.url_name == 'table_of_secificationcreate' %}active
+                                {% elif request.resolver_match.url_name == 'table_of_specification_update' %}active
+                                {% endif %}
+                                table_of_secificationcreate
+                                ">TOS</a>
+                                <a href="{% url 'masterfilestudents' %}" class="nav__dropdown-item
+                                {% if request.resolver_match.url_name == 'masterfilestudents' %}active
+                                {% elif request.resolver_match.url_name == 'masterfilestudentscreate' %}active
+                                {% elif request.resolver_match.url_name == 'masterfilestudentsupdate' %}active
+                                {% endif %}
+                                ">Students</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nav__dropdown">
+                        <a href="{% url 'questionnaires' %}" class="nav__link
+                        {% if request.path == questionnaires %}active
+                        {% elif request.path == create %}active
+                        {% elif request.resolver_match.url_name == 'questionnairescreate' %}active  
+                        {% elif request.resolver_match.url_name == 'print_questionnaire' %}active
+                        {% elif request.resolver_match.url_name == 'update' %}active
+                        {% elif request.resolver_match.url_name == 'print_final_nav' %}active
+                        {% endif %}
+                        
+                        
+                        ">
+                            <i class='bx bxs-layer nav__icon'></i>
+                            <span class="nav__name">Questionnaire</span>
+                            <i class='bx bx-chevron-down nav__icon nav__dropdown-icon'></i>
+                        </a>
+
+                        <div class="nav__dropdown-collapse">
+                            <div class="nav__dropdown-content"  style="white-space: nowrap;">
+                                <a href="{% url 'questionnairescreate' %}" class="nav__dropdown-item
+                                {% if request.resolver_match.url_name == 'questionnairescreate' %}active 
+                                {% endif%}
+                                ">Create</a>
+                                <a href="{% url 'questionnaires' %}" class="nav__dropdown-item
+                                {% if request.resolver_match.url_name == 'questionnaires' %}active 
+                                {% endif%}
+                                ">Lists</a>
+                                <a href="{% url 'print_final_nav' %}" class="nav__dropdown-item
+                                {% if request.resolver_match.url_name == 'print_final_nav' %}active 
+                                {% endif%}
+                                ">Print</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nav__dropdown">
+                        <a href="{% url 'check_tos' %}" class="nav__link
+                        {% if request.path == check_tos %}active
+                        {% elif request.resolver_match.url_name == 'check_tos' %}active  
+                        {% elif request.resolver_match.url_name == 'display_scores' %}active
+                        {% elif request.resolver_match.url_name == 'import_csv_assessment' %}active 
+                        {% elif request.resolver_match.url_name == 'check_tos' %}active 
+                        {% elif request.resolver_match.url_name == 'check_assessment' %}active 
+                        {% elif request.resolver_match.url_name == 'rankings_scores' %}active 
+                        {% elif request.resolver_match.url_name == 'display_scores_assessment' %}active 
+                        {% elif request.resolver_match.url_name == 'display_scores_tos' %}active 
+                        
+                        {% endif %}
+                        ">
+                            <i class='bx bx-scan nav__icon'></i>
+                            <span class="nav__name">Exam checker</span>
+                            <i class='bx bx-chevron-down nav__icon nav__dropdown-icon'></i>
+                        </a>
+                        <div class="nav__dropdown-collapse">
+                            <div class="nav__dropdown-content"  style="white-space: nowrap;">
+                                <a href="https://www.zipgrade.com/" class="nav__dropdown-item
+                                ">Zipgrade</a>
+                                <a href="{% url 'check_assessment' %}" class="nav__dropdown-item
+                                {% if request.resolver_match.url_name == 'check_assessment' %}active 
+                                {% endif%}
+                                ">Assessment</a>
+                                <a href="{% url 'check_tos' %}" class="nav__dropdown-item
+                                {% if request.resolver_match.url_name == 'check_tos' %}active 
+                                {% endif%}
+                                ">TOS</a>
+                                <a href="{% url 'rankings_scores' %}" class="nav__dropdown-item
+                                {% if request.resolver_match.url_name == 'rankings_scores' %}active 
+                                {% elif request.resolver_match.url_name == 'display_scores_assessment' %}active 
+                                {% elif request.resolver_match.url_name == 'display_scores_tos' %}active 
+                                
+                                {% endif%}
+                                ">Exam Scores</a>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="
+
+                    {% url 'restricted_list' %}
+                    
+                    " class="nav__link 
+                    {% if request.resolver_match.url_name == 'restricted_list' %}active 
+                    {% endif %}">
+                        <i class='bx bxs-error nav__icon' ></i>
+                        <span class="nav__name">Restricted List</span>
+                    </a>
+                    <a href="
+
+                    {% comment %} {% url 'reports' %} {% endcomment %}
+                    
+                    " class="nav__link 
+                    {% if request.path == reports %}active
+                    {% endif %}">
+                        <i class='bx bxs-select-multiple nav__icon' ></i>
+                        <span class="nav__name">Reports</span>
+                    </a>
+              </div>
+          </div>
+      </div>
+      <a href="{% url 'logout' %}" class="nav__link nav__logout">
+          <i class='bx bx-log-out nav__icon' ></i>
+          <span class="nav__name">Log Out</span>
+      </a>
+  </nav>
+</div>

@@ -1,0 +1,33 @@
+
+<div class="text-2xl cursor-pointer py-2 mx-6 w-8 transform hover:scale-110" id="cardtext">
+  <button onclick="window.location='{% url 'modulestopic' %}';">
+    <i class='bx bx-arrow-back'></i>
+  </button>
+</div>
+<form action="{% url 'modules_create_topic_final' %}" method="post">
+  {% csrf_token %}
+<div class="relative grid grid-cols-2 gap-6 pb-6 p-6 w-full h-full" id="cardtext">
+  <div class="col-span-1 w-full">
+    <label for="topic_modules">Topic name</label>
+    <input name="topic_name_modules" type="text" id="topic_modules" class="cc101 border border-gray-200 rounded-md shadow-lg outline-none w-full p-2" required />
+  </div>
+  <div class="col-span-1 w-full">
+    <label for="drop1">Subject</label>
+    <select 
+            class="ddrop cc101 border border-gray-200 rounded-md shadow-lg outline-none w-full p-2" 
+            required
+            name="subject_topic_modules"
+            id="drop1">
+        <option value="">Select</option>
+        {% for sub in subjects %}
+        <option value="{{sub.id}}">{{sub.subject_name | capfirst}}</option>
+        {% endfor %}
+    </select>
+  </div>
+  <div class="col-span-2 mt-6 flex justify-end relative">
+    <button id="btns" class="text-sm py-2 px-4 rounded-md shadow-lg bg-blue-500 hover:bg-blue-600 text-white" type="submit" style="position: absolute; bottom: 0; right: 0;">
+      Save
+    </button>
+  </div>
+</div>
+</form>

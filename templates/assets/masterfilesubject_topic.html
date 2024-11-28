@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+
+<style>
+  .hover-row:hover {
+    background-color: rgba(59, 130, 246, 0.1);
+  }
+</style>
+
+  {% include "includes/modulesnav.html" %}
+  
+
+  <div class="w-full h-full px-6 py-6" id="topicmoduletable">
+    {% if messages %}
+    <div class="messages-container" id="cardtext">
+        {% for message in messages %}
+        <div class="message bg-custom-primary border border-gray-600 text-custom-text bg-green-400 px-3 py-2 rounded flex justify-between items-center">
+            <span>{{ message }}</span>
+            <button type="button" class="close-btn ml-2" onclick="this.parentElement.style.display='none'">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <div class="mx-4 my-4 ">
+      <div 
+        hx-get="{% url 'modules_create_topic' %}"
+        hx-trigger="click"
+        hx-target="#topicmoduletable"
+        >
+        <button id="btns" type="button" class="text-title-color bg-blue-500 hover:bg-blue-600 font-medium text-xs px-4 py-2 rounded-lg absolute top-0 right-0 mt-2 mr-2">
+          Create
+        </button>
+      </div>
+    </div>
+      <div class="overflow-x-auto shadow-md sm:rounded-md table-container">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <thead class="text-xs dark:text-gray-400 sticky-header">
+            <tr>
+              <th scope="col" class="flex-1 px-6 py-3">
+                Topic name
+              </th>
+              <th scope="col" class="w-1/4 px-3 py-3">
+                Subject
+              </th>
+            </tr>
+          </thead>
+          <tbody class="text-xs overflow-y-auto max-h-[300px]" id="restrict_body">
+            {% for topic in topics %}
+              <tr class="hover-row border-b border-gray-500 dark:border-gray-200 whitespace-no-wrap " onclick="window.location='{% url 'modulestopicupdate' topic.id %}';" style="cursor: pointer;">
+                <td class="px-6 py-2 font-medium dark:text-gray-400" style="white-space: nowrap;">
+                  {{ topic.topic_name|capfirst|truncatechars:80 }}
+                </td>
+                <td class="px-3 py-2 dark:text-gray-400" style="white-space: nowrap;">
+                  {{ topic.subjectcode|truncatechars:25 }}
+                </td>
+              </tr>
+            {% endfor %}
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

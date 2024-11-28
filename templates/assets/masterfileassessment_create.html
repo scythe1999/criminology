@@ -1,0 +1,241 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+<div id="cardtext">
+    <form method="POST" class="text-sm">
+        {% csrf_token %}
+        
+        <div class="pb-2 text-sm">
+            <p id="cardtext">Subject</p>
+            <select class="ddrop border border-gray-200 cc101 rounded-md shadow-lg outline-none w-full p-2" name="subjectdropdown_assessment" id="subjectdropdown_assessment">
+                <option value="">Select</option>
+                {% for sub in subject %}
+                    <option value="{{ sub.pk }}">{{ sub.subject_name|upper }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    
+        <div class="pb-2 text-sm" id="topic-container">
+            <p id="cardtext">Topic</p>
+            <select class="ddrop border border-gray-200 cc101 rounded-md shadow-lg outline-none w-full p-2" id="topicdropdown_assessment" name="topicdropdown_assessment">
+                <option value="">Select topic</option>
+            </select>
+        </div>
+    
+        <div class="pb-4 pt-4">
+            <table class="w-full table-auto border-collapse " id="subtopic-table">
+                <thead>
+                    <tr class="sticky-header">
+                        <th class="border border-gray-500 px-4 py-2">Competencies</th>
+                        <th class="border border-gray-500 px-4 py-2">Remembering</th>
+                        <th class="border border-gray-500 px-4 py-2">Understanding</th>
+                        <th class="border border-gray-500 px-4 py-2">Applying</th>
+                        <th class="border border-gray-500 px-4 py-2">Analyzing</th>
+                        <th class="border border-gray-500 px-4 py-2">Evaluating</th>
+                        <th class="border border-gray-500 px-4 py-2">Creating</th>
+                        <th class="border border-gray-500 px-4 py-2">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Subtopic rows will be inserted dynamically here -->
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td class="border border-gray-500 px-2 py-2 text-left">NUMBER OF ITEMS AND DISTRIBUTION</td>
+                        <td class="border border-gray-500 px-2 py-2 text-center">
+                            <input type="number" name="subtopic_remembering_total" value="0" class="bg-transparent w-12 px-2" disabled />
+                        </td>
+                        <td class="border border-gray-500 px-2 py-2 text-center">
+                            <input type="number" name="subtopic_understanding_total" value="0" class="bg-transparent w-12 px-2" disabled />
+                        </td>
+                        <td class="border border-gray-500 px-2 py-2 text-center">
+                            <input type="number" name="subtopic_applying_total" value="0" class="bg-transparent w-12 px-2" disabled />
+                        </td>
+                        <td class="border border-gray-500 px-2 py-2 text-center">
+                            <input type="number" name="subtopic_analyzing_total" value="0" class="bg-transparent w-12 px-2" disabled />
+                        </td>
+                        <td class="border border-gray-500 px-2 py-2 text-center">
+                            <input type="number" name="subtopic_evaluating_total" value="0" class="bg-transparent w-12 px-2" disabled />
+                        </td>
+                        <td class="border border-gray-500 px-2 py-2 text-center">
+                            <input type="number" name="subtopic_creating_total" value="0" class="bg-transparent w-12 px-2" disabled />
+                        </td>
+                        <td class="border border-gray-500 px-2 py-2 text-center">
+                            <input type="number" name="subtopic_total_distribution" value="0" class="bg-transparent w-12 px-2" disabled />
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="mt-auto flex my-4">
+            <span class="flex-1"></span>
+            <button id="btns" class="sbmtbtn text-white text-sm py-2 px-4 rounded-md shadow-lg" type="submit">
+                Submit
+            </button>
+        </div>
+    </form>
+    
+  <div id="loading-indicator" style="display:none;">
+    <p>Loading...</p>
+  </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const subjectDropdown = document.getElementById("subjectdropdown_assessment");
+        const topicDropdown = document.getElementById("topicdropdown_assessment");
+        const subtopicTable = document.getElementById("subtopic-table").getElementsByTagName('tbody')[0];
+        const loadingIndicator = document.getElementById("loading-indicator");
+    
+        let totals = {
+            remembering: 0,
+            understanding: 0,
+            applying: 0,
+            analyzing: 0,
+            evaluating: 0,
+            creating: 0,
+            total: 0 
+        };
+    
+        function updateFooter() {
+            const footer = document.querySelector('tfoot tr');
+            footer.querySelector('[name="subtopic_remembering_total"]').value = totals.remembering;
+            footer.querySelector('[name="subtopic_understanding_total"]').value = totals.understanding;
+            footer.querySelector('[name="subtopic_applying_total"]').value = totals.applying;
+            footer.querySelector('[name="subtopic_analyzing_total"]').value = totals.analyzing;
+            footer.querySelector('[name="subtopic_evaluating_total"]').value = totals.evaluating;
+            footer.querySelector('[name="subtopic_creating_total"]').value = totals.creating;
+            footer.querySelector('[name="subtopic_total_distribution"]').value = totals.total;
+        }
+    
+        function updateRowTotal(row) {
+            const remembering = parseFloat(row.querySelector('[name^="subtopic_remembering"]').value) || 0;
+            const understanding = parseFloat(row.querySelector('[name^="subtopic_understanding"]').value) || 0;
+            const applying = parseFloat(row.querySelector('[name^="subtopic_applying"]').value) || 0;
+            const analyzing = parseFloat(row.querySelector('[name^="subtopic_analyzing"]').value) || 0;
+            const evaluating = parseFloat(row.querySelector('[name^="subtopic_evaluating"]').value) || 0;
+            const creating = parseFloat(row.querySelector('[name^="subtopic_creating"]').value) || 0;
+    
+            const rowTotal = remembering + understanding + applying + analyzing + evaluating + creating;
+    
+            const rowTotalInput = row.querySelector('[name^="subtopic_total"]');
+            if (rowTotalInput) rowTotalInput.value = rowTotal;
+    
+            totals.remembering = 0;
+            totals.understanding = 0;
+            totals.applying = 0;
+            totals.analyzing = 0;
+            totals.evaluating = 0;
+            totals.creating = 0;
+            totals.total = 0;
+    
+            const rows = subtopicTable.querySelectorAll('tr');
+            rows.forEach(row => {
+                totals.remembering += parseFloat(row.querySelector('[name^="subtopic_remembering"]').value) || 0;
+                totals.understanding += parseFloat(row.querySelector('[name^="subtopic_understanding"]').value) || 0;
+                totals.applying += parseFloat(row.querySelector('[name^="subtopic_applying"]').value) || 0;
+                totals.analyzing += parseFloat(row.querySelector('[name^="subtopic_analyzing"]').value) || 0;
+                totals.evaluating += parseFloat(row.querySelector('[name^="subtopic_evaluating"]').value) || 0;
+                totals.creating += parseFloat(row.querySelector('[name^="subtopic_creating"]').value) || 0;
+            });
+    
+            totals.total = totals.remembering + totals.understanding + totals.applying + totals.analyzing + totals.evaluating + totals.creating;
+    
+            updateFooter();
+        }
+    
+        subjectDropdown.addEventListener("change", function() {
+            const subjectId = subjectDropdown.value;
+            if (subjectId) {
+                loadingIndicator.style.display = "block"; 
+    
+                topicDropdown.innerHTML = '<option value="">Select topic</option>'; 
+    
+                fetch(`/get_topics/${subjectId}/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        data.topics.forEach(topic => {
+                            const option = document.createElement('option');
+                            option.value = topic.id;
+                            option.textContent = topic.topic_name;
+                            topicDropdown.appendChild(option);
+                        });
+                        loadingIndicator.style.display = "none";
+                    })
+                    .catch(error => {
+                        console.error('Error fetching topics:', error);
+                        loadingIndicator.style.display = "none"; 
+                    });
+            } else {
+                topicDropdown.innerHTML = '<option value="">Select topic</option>';
+                subtopicTable.innerHTML = '';  
+                loadingIndicator.style.display = "none"; 
+            }
+        });
+    
+        topicDropdown.addEventListener("change", function() {
+            const topicId = topicDropdown.value;
+            if (topicId) {
+                loadingIndicator.style.display = "block"; 
+    
+                subtopicTable.innerHTML = ''; 
+    
+                fetch(`/get_subtopics/${topicId}/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        data.subtopics.forEach(subtopic => {
+                            const row = subtopicTable.insertRow();
+                            row.innerHTML = `
+                                <td class="border border-gray-500 px-2 py-2 text-left">${subtopic.subtopic_name}</td>
+                                <td class="border border-gray-500 px-2 py-2 text-center">
+                                    <input type="number" name="subtopic_remembering_${subtopic.id}" value="0" class="bg-transparent w-12 px-2" />
+                                </td>
+                                <td class="border border-gray-500 px-2 py-2 text-center">
+                                    <input type="number" name="subtopic_understanding_${subtopic.id}" value="0" class="bg-transparent w-12 px-2" />
+                                </td>
+                                <td class="border border-gray-500 px-2 py-2 text-center">
+                                    <input type="number" name="subtopic_applying_${subtopic.id}" value="0" class="bg-transparent w-12 px-2" />
+                                </td>
+                                <td class="border border-gray-500 px-2 py-2 text-center">
+                                    <input type="number" name="subtopic_analyzing_${subtopic.id}" value="0" class="bg-transparent w-12 px-2" />
+                                </td>
+                                <td class="border border-gray-500 px-2 py-2 text-center">
+                                    <input type="number" name="subtopic_evaluating_${subtopic.id}" value="0" class="bg-transparent w-12 px-2" />
+                                </td>
+                                <td class="border border-gray-500 px-2 py-2 text-center">
+                                    <input type="number" name="subtopic_creating_${subtopic.id}" value="0" class="bg-transparent w-12 px-2" />
+                                </td>
+                                <td class="border border-gray-500 px-2 py-2 text-center">
+                                    <input type="number" name="subtopic_total_${subtopic.id}" value="0" class="bg-transparent w-12 px-2" disabled />
+                                </td>
+                            `;
+    
+                            const inputs = row.querySelectorAll('input[type="number"]');
+                            inputs.forEach(input => {
+                                input.addEventListener('input', function() {
+                                    updateRowTotal(row); 
+                                });
+                            });
+                        });
+    
+                        updateFooter();
+    
+                        loadingIndicator.style.display = "none"; 
+                    })
+                    .catch(error => {
+                        console.error('Error fetching subtopics:', error);
+                        loadingIndicator.style.display = "none"; 
+                    });
+            } else {
+                subtopicTable.innerHTML = '';  // Clear subtopic table
+                loadingIndicator.style.display = "none"; 
+            }
+        });
+    });
+</script>
+
+
+
+
+
+{% endblock %}

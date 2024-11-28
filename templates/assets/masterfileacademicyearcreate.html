@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+  <div class="text-2xl cursor-pointer py-2 ml-10 w-8 transform hover:scale-110" id="cardtext">
+    <button onclick="window.location='{% url 'academic_year' %}';">
+      <i class='bx bx-arrow-back'></i>
+    </button>
+  </div>
+<form action="{% url 'academicyearcreate' %}" method="post" class="my-auto flex flex-col w-full p-6 ml-4">
+  {% csrf_token %}
+  
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-2 pb-6" id="cardtext">
+      <div class="container mx-auto text-sm">
+          <label for="{{ form.academic_year.id_for_label }}">Select Academic Year</label>
+          {{ form.academic_year }}
+      </div>
+      <div class="w-full text-sm">
+        <p id="cardtext">Active Status</p>
+        <select name="period" required class="ddrop cc101  border-gray-200 rounded-md shadow-lg outline-none w-full p-2">
+            <option value="first" selected>First</option>
+            <option value="second">Second</option>
+        </select>
+      </div>
+      <div class="w-full text-sm">
+          <p id="cardtext">Active Status</p>
+          <select name="activestatus" required class="ddrop cc101  border-gray-200 rounded-md shadow-lg outline-none w-full p-2">
+              <option value="0" selected>Inactive</option>
+              <option value="1">Active</option>
+          </select>
+      </div>
+  </div>
+
+  <div class="mt-auto flex">
+      <span class="flex-1"></span>
+      <button id="btns" class="text-white text-sm py-2 px-4 rounded-md shadow-lg" type="submit">Submit</button>
+  </div>
+</form>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const selects = document.querySelectorAll("select");
+    selects.forEach(select => {
+      select.classList.add("ddrop", "cc101", "border","border-gray-200", "rounded-md", "shadow-lg", "outline-none", "w-full", "p-2");
+    });
+  });
+</script>
+{% endblock %}

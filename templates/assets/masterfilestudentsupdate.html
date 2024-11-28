@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<form action="
+  {% url 'masterfilestudentsupdatefinal' pk=student.id %}
+  " method="post" class="my-auto flex flex-col w-full p-6 ml-4">
+
+
+    {% if messages %}
+    <div class="messages-container">
+        {% for message in messages %}
+        <div class="message bg-custom-primary border border-custom-secondary text-custom-text px-3 py-2 rounded flex justify-between items-center">
+            <span>{{ message }}</span>
+            <button type="button" class="close-btn ml-2" onclick="this.parentElement.style.display='none'">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="text-2xl cursor-pointer py-2 w-8 transform hover:scale-110" id="cardtext">
+      <button onclick="window.location='{% url 'masterfilestudents' %}';">
+        <i class='bx bx-arrow-back'></i>
+      </button>
+    </div>
+    
+    {% csrf_token %}
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-2 pb-6" id="cardtext">
+    <div class="w-full text-sm">
+      <label for="corans" id="cardtext" >Lastname</label>
+      <input  name="lastName_update" value="{{student.lastname}}" type="text" id="corans" class="cc101 rounded-md shadow-lg outline-none w-full p-2" required />
+    </div>
+    <div class="w-full text-sm">
+      <label for="dis1" id="cardtext" >Firstname</label>
+      <input value="{{student.firstname}}" name="firstName_update" type="text" id="dis1" class="cc101 rounded-md shadow-lg outline-none w-full p-2" required />
+    </div>
+    <div class="w-full text-sm">
+      <label for="dis2" id="cardtext" >Student ID</label>
+      <input name="studentId" type="text" value="{{student.studentid}}" class="cc101 rounded-md shadow-lg outline-none w-full p-2" disabled />
+    </div>
+    <div class="text-sm">
+      <p id="cardtext">Academic period</p>
+      <select name="acadyear" class="ddrop cc101 rounded-md shadow-lg outline-none w-full p-2" 
+              disabled>
+          <option>{{student.academic_year.year_series }} / {{student.academic_year.period}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="mt-auto flex">
+    <span class="flex-1"></span>
+    <button id="btns" class="text-white text-sm py-2 px-4 rounded-md shadow-lg" type="submit">
+      Submit
+    </button>
+  </div>
+</form> 
+{% endblock %}

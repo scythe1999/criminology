@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<form action="
+  {% url 'masterfilestudentscreate' %}
+  " method="post" class="my-auto flex flex-col w-full p-6 ml-4">
+
+
+  {% if messages %}
+  <div class="messages-container pb-2" id="cardtext">
+      {% for message in messages %}
+      <div class="message bg-custom-primary border border-gray-600 text-custom-text bg-green-400 px-3 py-2 rounded flex justify-between items-center">
+          <span>{{ message }}</span>
+          <button type="button" class="close-btn ml-2" onclick="this.parentElement.style.display='none'">
+              <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+      {% endfor %}
+  </div>
+{% endif %}
+
+    <div class="text-2xl cursor-pointer py-2 w-8 transform hover:scale-110" id="cardtext">
+      <button onclick="window.location='{% url 'masterfilestudents' %}';">
+        <i class='bx bx-arrow-back'></i>
+      </button>
+    </div>
+    
+    {% csrf_token %}
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-2 pb-6" id="cardtext">
+    <div class="w-full text-sm">
+      <label for="corans"  >Lastname</label>
+      <input  name="lastName" type="text" id="corans" class="cc101 rounded-md shadow-lg outline-none w-full p-2" required />
+    </div>
+    <div class="w-full text-sm">
+      <label for="dis1"  >Firstname</label>
+      <input name="firstName" type="text" id="dis1" class="cc101 rounded-md shadow-lg outline-none w-full p-2" required />
+    </div>
+    <div class="w-full text-sm">
+      <label for="dis2"  >Student ID</label>
+      <input name="studentId" type="text" value="{{studentid}}" class="cc101 rounded-md shadow-lg outline-none w-full p-2" disabled />
+    </div>
+    <div class="text-sm">
+      <p >Academic period</p>
+      <select name="acadyear" class="ddrop cc101 rounded-md shadow-lg outline-none w-full p-2">
+          {% for academicyear in academicyear %}
+              <option value="{{ academicyear.pk }}" selected>{{ academicyear.year_series|capfirst }} {{ academicyear.period|capfirst }}</option>
+          {% endfor %}
+      </select>
+    </div>
+  </div>
+  <div class="mt-auto flex">
+    <span class="flex-1"></span>
+    <button id="btns" class="text-white text-sm py-2 px-4 rounded-md shadow-lg" type="submit">
+      Submit
+    </button>
+  </div>
+</form>  
+{% endblock %}

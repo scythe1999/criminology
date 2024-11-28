@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<form action="{% url 'academicyearupdate' academic_year.id %}" method="post" class="my-auto flex flex-col w-full p-6 ml-4">
+  {% csrf_token %}
+
+  <div class="text-2xl cursor-pointer py-2 w-8 transform hover:scale-110" id="cardtext">
+    <button onclick="window.location='{% url 'academic_year' %}';">
+      <i class='bx bx-arrow-back'></i>
+    </button>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-2 pb-6" id="cardtext">
+    <div class="text-sm">
+      <label for="status">Select Academic Year</label>
+      <select name="yearserriesupdate" class="ddrop border border-gray-200 cc101 rounded-md shadow-lg outline-none w-full p-2" disabled>
+        <option value="{{academic_year.year_series}}">{{academic_year.year_series}}</option>
+      </select>
+    </div>
+    <div class="w-full text-sm">
+      <p id="cardtext">Active Status</p>
+      <select name="periodupdate" required class="ddrop cc101  border-gray-200 rounded-md shadow-lg outline-none w-full p-2">
+          <option value="first" {% if academic_year.period == 'first' %}selected{% endif %}>First</option>
+          <option value="second" {% if academic_year.period == 'second' %}selected{% endif %}>Second</option>
+      </select>
+    </div>
+    <div class="w-full text-sm">
+      <label for="status">Status</label>
+      <select name="activestatusupdate" class="ddrop border border-gray-200 cc101 rounded-md shadow-lg outline-none w-full p-2" required>
+        <option value="0" {% if academic_year.status == 0 %}selected{% endif %}>Inactive</option>
+        <option value="1" {% if academic_year.status == 1 %}selected{% endif %}>Active</option>
+      </select>
+    </div>
+  </div>
+  <div class="mt-auto flex">
+    <span class="flex-1"></span>
+    <button id="btns" class="text-white text-sm py-2 px-4 rounded-md shadow-lg" type="submit">
+      Submit
+    </button>
+  </div>
+</form>
+{% endblock %}

@@ -1,0 +1,30 @@
+<div class="text-2xl cursor-pointer py-2 mx-6 w-8 transform hover:scale-110" id="cardtext">
+  <button onclick="window.location='{% url 'modules' %}';">
+    <i class='bx bx-arrow-back'></i>
+  </button>
+</div>
+<form class="text-sm" action="{% url 'modules_create_subject_final' %}" method="post">
+  {% csrf_token %}
+  <div class="relative grid grid-cols-1 gap-6 pb-6 p-6 w-full h-full" id="cardtext">
+    <div class="w-full">
+      <label for="subjectname_modules" class="text-sm">Subject Name</label>
+      <input name="subject_name_modules" type="text" id="subjectname_modules" class="border border-gray-200 rounded-md shadow-lg outline-none w-full p-2 text-sm" required />
+    </div>
+
+    <div class="grid grid-cols-2 gap-6 w-full">
+      <div class="w-full">
+        <label for="subjectcode_modules" class="text-sm">Subject Code</label>
+        <input name="subject_code_modules" type="text" id="subjectcode_modules" class="border border-gray-200 rounded-md shadow-lg outline-none w-full p-2" required />
+      </div>
+      <div class="w-full">
+        <label for="subjectpw_modules" class="text-sm">Percentage Weight</label>
+        <input name="subject_pw_modules" type="number" id="subjectpw_modules" class="border border-gray-200 rounded-md shadow-lg outline-none w-full p-2" required />
+      </div>
+    </div>
+    <div class="flex justify-end mt-6">
+      <button id="btns" class="text-sm py-2 px-4 rounded-md shadow-lg bg-blue-500 hover:bg-blue-600 text-white" type="submit">
+        Save
+      </button>
+    </div>
+  </div>
+</form>

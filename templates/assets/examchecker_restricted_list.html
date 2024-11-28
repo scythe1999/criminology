@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+<div class="flex justify-between items-center mx-6">
+    <form class="relative ml-auto" method="GET" action="{% url 'restricted_list' %}">
+        <label for="default-search" class="sr-only">Search</label>
+        <div class="flex items-center border border-gray-500 rounded-lg overflow-hidden bg-transparent">
+            <input 
+                name="q" 
+                type="search" 
+                id="default-search" 
+                class="block w-full p-3 text-xs outline-none bg-transparent text-black" 
+                placeholder="Search..." 
+                oninput="checkInput()"
+                {% if q %}
+                value="{{ q }}" 
+                {% else %}
+                value=""
+                {% endif %}
+                required 
+            />
+            <button 
+                id="btns" 
+                type="submit" 
+                class="buttons_for_ocr font-medium text-xs px-4 py-2 rounded-lg ml-2"
+            >Search</button>
+        </div>
+    </form>
+</div>
+<div class="mx-6 my-2 relative overflow-x-auto shadow-md sm:rounded-md table-container">
+    <table class="w-full text-sm text-left rtl:text-right ">
+        <thead class="text-xs sticky-header">
+            <tr>
+                <th scope="col" class="px-6 py-3 w-3/5 text-left">
+                    Question
+                </th>
+                <th scope="col" class="py-3 text-left">
+                    Subject
+                </th>
+                <th scope="col" class="py-3 text-left">
+                    Category
+                </th>
+                <th scope="col" class="py-3 text-center">
+                    Action
+                </th>
+            </tr>
+        </thead>
+        <tbody class="text-xs" id="cardtext">
+            {% for restricted in restricted %}
+            <tr class="border-b border-gray-500 dark:border-gray-200">
+                <td class="px-6 py-2 font-medium whitespace-nowrap">
+                    {{ restricted.description|capfirst|truncatechars:95 }}
+                </td>
+                <td class="py-2 text-left">
+                    {{ restricted.subject.subject_code }}
+                </td>
+                <td class="py-2 text-left">
+                    {{ restricted.category }}
+                </td>
+                <td class="py-2 text-left flex justify-evenly">
+                    <a href="{% url 'restrictquestionremove' restricted.id %}" 
+                        class="font-medium text-blue-500 hover:text-blue-700 hover:underline">
+                        Remove
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <script>
+
+        
+    //=================search script=================
+    function checkInput() {
+        const searchInput = document.getElementById('default-search').value.trim(); 
+    
+        if (searchInput === '') {
+            window.location.href = "{% url 'restricted_list' %}";  
+        }
+    }
+    </script>
+</div>
+{% endblock content %}

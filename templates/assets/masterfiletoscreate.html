@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<script src="{% static 'js/toscreate.js' %}" defer></script>
+
+<div class="overflow-x-auto">
+    <div class="min-w-full">
+
+            <style>
+            .table-container {
+                max-width: 90%;
+                margin: auto;
+                overflow-x: auto;
+            }
+
+            table {
+                width: 100%;
+            }
+            </style>
+
+
+        <div class="flex justify-start">
+            <div class="text-2xl cursor-pointer py-2 mx-2 w-8 transform hover:scale-110" id="cardtext">
+                <button onclick="window.location='{% url 'table_of_secification' %}';">
+                  <i class='bx bx-arrow-back'></i>
+                </button>
+              </div>
+        </div>
+
+
+        <form method="POST" action="{% url 'table_of_secificationcreate' pk=subject.id %}">
+            {% csrf_token %}
+            <div class="overflow-x-auto space-y-8 text-xs">
+                <table class="min-w-full border-collapse border border-gray-500">
+                    <thead class="bg-gray-700">
+                        <tr>
+                            <th class="border border-gray-500 px-4 py-2 text-center">TOPIC</th>
+                            <th class="border border-gray-500 px-4 py-2 text-center">PWD</th>
+                            <th class="border border-gray-500 px-4 py-2 text-center">Remembering</th>
+                            <th class="border border-gray-500 px-4 py-2 text-center">Understanding</th>
+                            <th class="border border-gray-500 px-4 py-2 text-center">Applying</th>
+                            <th class="border border-gray-500 px-4 py-2 text-center">Analyzing</th>
+                            <th class="border border-gray-500 px-4 py-2 text-center">Evaluating</th>
+                            <th class="border border-gray-500 px-4 py-2 text-center">Creating</th>
+                            <th class="border border-gray-500 px-4 py-2 text-center">NID</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cardtext">
+                        {% for topic in topics %}
+                        <tr class="text-center">
+                            <td class="w-1/4 border border-gray-500 px-4 py-2 text-left">{{ topic.topic_name }}</td>
+                            <td class="border border-gray-500 px-4 py-2 text-center">
+                                <div class="flex items-center justify-center">
+                                    <input type="number" name="pwd_{{ topic.id }}" value="0" class="bg-transparent text-center w-10" disabled />
+                                    <span class="ml-0.5">%</span>
+                                </div>
+                            </td>
+                            <td class="border border-gray-500 px-4 py-2">
+                                <input type="number" name="remembering_{{ topic.id }}" value="0" class="bg-transparent text-center w-12 px-2" disabled/>
+                            </td>
+                            <td class="border border-gray-500 px-4 py-2">
+                                <input type="number" name="understanding_{{ topic.id }}" value="0" class="bg-transparent text-center w-12 px-2" disabled/>
+                            </td>
+                            <td class="border border-gray-500 px-4 py-2">
+                                <input type="number" name="applying_{{ topic.id }}" value="0" class="bg-transparent text-center w-12 px-2" disabled/>
+                            </td>
+                            <td class="border border-gray-500 px-4 py-2">
+                                <input type="number" name="analyzing_{{ topic.id }}" value="0" class="bg-transparent text-center w-12 px-2" disabled/>
+                            </td>
+                            <td class="border border-gray-500 px-4 py-2">
+                                <input type="number" name="evaluating_{{ topic.id }}" value="0" class="bg-transparent text-center w-12 px-2" disabled/>
+                            </td>
+                            <td class="border border-gray-500 px-4 py-2">
+                                <input type="number" name="creating_{{ topic.id }}" value="0" class="bg-transparent text-center w-12 px-2" disabled/>
+                            </td>
+                            <td class="border border-gray-500 px-4 py-2">
+                                <input type="number" name="total_{{ topic.id }}" value="0" class="bg-transparent text-center w-12 px-2" disabled />
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        <tr class="text-center">
+                            <td class="w-1/4 border border-gray-500 px-4 py-2 text-left">NUMBER OF ITEMS AND DISTRIBUTION</td>
+                            <td class="border border-gray-500 px-4 py-2 text-center">
+                                <div class="flex items-center justify-center">
+                                    <input type="number" name="pwd_cat_update" value="0" class="bg-transparent text-center w-12" disabled />
+                                    <span class="ml-1">%</span>
+                                </div>
+                            </td>
+                            <td class="border border-gray-500 px-4 py-2">
+                                <input type="number" name="remembering_cat" value="0" class="bg-transparent text-center w-12 px-2" disabled />
+                            </td>
+                            <td class="border border-gray-500 px-4 py-2">
+                                <input type="number" name="understanding_cat" value="0" class="bg-transparent text-center w-12 px-2" disabled />
+                            </td>
+                            <td class="border border-gray-500 px-4 py-2">
+                                <input type="number" name="applying_cat" value="0" class="bg-transparent text-center w-12 px-2" disabled />
+                            </td>
+                            <td class="border border-gray-500 px-4 py-2">
+                                <input type="number" name="analyzing_cat" value="0" class="bg-transparent text-center w-12 px-2" disabled />
+                            </td>
+                            <td class="border border-gray-500 px-4 py-2">
+                                <input type="number" name="evaluating_cat" value="0" class="bg-transparent text-center w-12 px-2" disabled />
+                            </td>
+                            <td class="border border-gray-500 px-4 py-2">
+                                <input type="number" name="creating_cat" value="0" class="bg-transparent text-center w-12 px-2" disabled />
+                            </td>
+                            <td class="border border-gray-500 px-4 py-2">
+                                <input type="number" name="totals_cat" value="0" class="bg-transparent text-center w-12 px-2" disabled />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                {% for topic in topics %}
+                    {% if topic.subtopic_set.exists %}
+                    <table class="min-w-full border-collapse border border-gray-500 mt-4" >
+                        <thead class="bg-gray-700">
+                            <tr>
+                                <th class="border border-gray-500 px-4 py-2 text-center">{{ topic.topic_name }}</th>
+                                <th class="border border-gray-500 px-4 py-2 text-center">PWD</th>
+                                <th class="border border-gray-500 px-4 py-2 text-center">Remembering</th>
+                                <th class="border border-gray-500 px-4 py-2 text-center">Understanding</th>
+                                <th class="border border-gray-500 px-4 py-2 text-center">Applying</th>
+                                <th class="border border-gray-500 px-4 py-2 text-center">Analyzing</th>
+                                <th class="border border-gray-500 px-4 py-2 text-center">Evaluating</th>
+                                <th class="border border-gray-500 px-4 py-2 text-center">Creating</th>
+                                <th class="border border-gray-500 px-4 py-2 text-center">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cardtext">
+                            {% for subtopic in topic.subtopic_set.all %}
+                            <tr class="text-center">
+                                <td class="w-1/4 border border-gray-500 px-4 py-2 text-left">{{ subtopic.subtopic_name }}</td>
+                                <td class="border border-gray-500 px-4 py-2 text-center">
+                                    <div class="flex items-center justify-center">
+                                        <input type="number" name="subtopic_pwd_{{ subtopic.id }}" data-topic-id="{{ topic.id }}" value="0" class="bg-transparent text-center w-10" />
+                                        <span class="ml-0.5">%</span>
+                                    </div>
+                                </td>
+                                <td class="border border-gray-500 px-4 py-2">
+                                    <input type="number" name="subtopic_remembering_{{ subtopic.id }}" data-topic-id="{{ topic.id }}" value="0" class="bg-transparent text-center w-12 px-2" />
+                                </td>
+                                <td class="border border-gray-500 px-4 py-2">
+                                    <input type="number" name="subtopic_understanding_{{ subtopic.id }}" data-topic-id="{{ topic.id }}" value="0" class="bg-transparent text-center w-12 px-2" />
+                                </td>
+                                <td class="border border-gray-500 px-4 py-2">
+                                    <input type="number" name="subtopic_applying_{{ subtopic.id }}" data-topic-id="{{ topic.id }}" value="0" class="bg-transparent text-center w-12 px-2" />
+                                </td>
+                                <td class="border border-gray-500 px-4 py-2">
+                                    <input type="number" name="subtopic_analyzing_{{ subtopic.id }}" data-topic-id="{{ topic.id }}" value="0" class="bg-transparent text-center w-12 px-2" />
+                                </td>
+                                <td class="border border-gray-500 px-4 py-2">
+                                    <input type="number" name="subtopic_evaluating_{{ subtopic.id }}" data-topic-id="{{ topic.id }}" value="0" class="bg-transparent text-center w-12 px-2" />
+                                </td>
+                                <td class="border border-gray-500 px-4 py-2">
+                                    <input type="number" name="subtopic_creating_{{ subtopic.id }}" data-topic-id="{{ topic.id }}" value="0" class="bg-transparent text-center w-12 px-2" />
+                                </td>
+                                <td class="border border-gray-500 px-4 py-2">
+                                    <input type="number" name="subtopic_total_{{ subtopic.id }}" value="0" class="bg-transparent text-center w-12 px-2" disabled data-topic-id="{{ topic.id }}" />
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% endif %}
+                {% endfor %}
+                <div class="flex justify-end py-4">
+                    <button type="submit" class=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

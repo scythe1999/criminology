@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+
+<div id="cardtext" class="relative table_to_print my-6 p-6 bg-gray-100 rounded-lg shadow-md">
+  <div class="flex justify-between items-center mb-4">
+    <div class="exam_id font-bold text-lg"> 
+      Exam ID: {{ assessment_exam_id }} 
+    </div>
+    <div>
+      <button id="btns-answerkey" onclick="printAnswerKey()" class="buttons_for_ocr text-white text-sm mt-2 py-2 px-4 rounded-md shadow-lg" type="button">
+        Print Answer Key
+      </button>
+      <button id="btns-questions" onclick="printQuestions()" class="buttons_for_ocr text-white text-sm mt-2 py-2 px-4 rounded-md shadow-lg" type="button">
+        Print Questions
+      </button>
+    </div>
+  </div>
+
+  <div id="questions-section">
+    {% for item in assessment %}
+    <div class="mb-4">
+        <div class="text-sm">{{item.number}}. {{item.question}}</div>
+        <div class="grid grid-cols-2 gap-1 mt-2 text-xs">
+            <div>A. {{item.a|capfirst}}</div>
+            <div>B. {{item.b|capfirst}}</div>
+            <div>C. {{item.c|capfirst}}</div>
+            <div>D. {{item.d|capfirst}}</div>
+        </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div id="answerkey-section" style="display:none;">
+    {% for item in assessment %}
+    <div class="mb-4">
+        <div class="text-sm">{{item.number}}. {{item.correct_choice}} - {{item.correct_answer}}</div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<style>
+  @media print {
+    * {
+      padding: 0;
+      margin: 0;
+      border: none !important;
+      background: transparent !important;
+      box-shadow: none !important;
+    }
+
+    body {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+      background: transparent !important;
+      z-index: -100 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      height: auto !important;
+      width: 100vw !important;
+      font-size: 12px;
+      padding-bottom: 100px;
+    }
+
+    .table_to_print {
+      padding-top: 80px;
+      font-family: "Times New Roman", Times, serif !important;
+      color: black !important;
+      z-index: 100 !important;
+      width: 100vw;
+      page-break-before: always;
+      margin-top: 100px;
+    }
+
+    .exam_id {
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding-bottom: 20px;
+      margin-top: 20px;
+      padding-right: 10px;
+      font-family: "Times New Roman", Times, serif !important;
+      font-size: 12px;
+    }
+
+    header, #to_hide {
+      display: none !important;
+    }
+
+    .question {
+      page-break-inside: avoid;
+    }
+
+    .table-container {
+      overflow: visible !important;
+      page-break-inside: avoid !important;
+    }
+
+    h1, h4 {
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    .testpaper_header h1, .testpaper_header h4 {
+      margin-bottom: 0 !important;
+      padding-bottom: 0 !important;
+    }
+
+    @page {
+      margin-top: 100px;
+      margin-bottom: 100px;
+      margin-left: 100px;
+      margin-right: 100px;
+    }
+    .first-page-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-image: url("{% static 'images/watermark.png' %}") !important;
+      background-size: cover !important;
+      background-position: top center !important;
+      background-repeat: no-repeat !important;
+      z-index: -1;
+    }
+    .first-page-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-image: url("{% static 'images/watermark.png' %}") !important;
+      background-size: cover !important;
+      background-position: top center !important;
+      background-repeat: no-repeat !important;
+      z-index: -1;
+    }
+  }
+</style>
+
+<script>
+  function printQuestions() {
+    var answerkeySection = document.getElementById('answerkey-section');
+    var questionsSection = document.getElementById('questions-section');
+    
+    answerkeySection.style.display = 'none';
+    questionsSection.style.display = 'block';
+    
+    window.print();
+  }
+
+  function printAnswerKey() {
+    var answerkeySection = document.getElementById('answerkey-section');
+    var questionsSection = document.getElementById('questions-section');
+    
+    answerkeySection.style.display = 'block';
+    questionsSection.style.display = 'none';
+    
+    window.print();
+  }
+</script>
+
+<div class="first-page-background"></div>
+
+{% endblock %}

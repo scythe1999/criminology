@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="bg-white p-6 rounded-md shadow-md" id="cardtext">
+    <h2 class="text-2xl font-bold mb-4 text-gray-700">Scores and Rankings</h2>
+    {% if scores %}
+        <div class="overflow-x-auto rounded-md shadow-md">
+            <table class="w-full text-sm text-left rtl:text-right ">
+                <thead class="text-xs  sticky-header">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 w-3/5 text-left">
+                            Student ID
+                        </th>
+                        <th scope="col" class=" py-3 text-left">
+                            Rank
+                        </th>
+                        <th scope="col" class=" py-3 text-left">
+                            Name
+                        </th>
+                        <th scope="col" class=" py-3 text-left">
+                            Class
+                        </th>
+                        <th scope="col" class=" py-3 text-left">
+                            Total score
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="text-xs" id="cardtext">
+                    {% for score in scores %}
+                    <tr class="border-b border-gray-500 dark:border-gray-200">
+                        <td class="px-6 py-2 font-medium  whitespace-nowrap">
+                            {{ score.studentid }}
+                        </td>
+                        <td class="py-2  text-left">
+                            {{ score.rank }}
+                        </td>
+                        <td class="py-2  text-left">
+                            {{ score.firstname }} {{ score.lastname }}
+                        </td>
+                        <td class="py-2  text-left">
+                            {{ score.period }}
+                        </td>
+                        <td class="py-2  text-left">
+                            {{ score.score }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded mb-4">
+            No scores available.
+        </div>
+    {% endif %}
+
+</div>
+{% endblock %}
+
+
